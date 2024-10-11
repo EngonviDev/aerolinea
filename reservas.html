@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Reservas - Aerolínea Kronos</title>
+    <style>
+        /* Estilos para la factura */
+        .factura {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .factura h3 {
+            margin-top: 0;
+        }
+        .factura p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reservas - Aerolínea Kronos</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="destinos.html">Destinos</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="reservar">
+            <h2>Realiza tu Reserva</h2>
+            <p>Selecciona un destino y completa el formulario para reservar tu vuelo:</p>
+
+            <form id="form-reserva">
+                <label for="destino">Destino:</label><br>
+                <select id="destino" name="destino" required onchange="mostrarFormulario()">
+                    <option value="">Selecciona un destino</option>
+                    <option value="España" data-precio="300">España - $300</option>
+                    <option value="Italia" data-precio="350">Italia - $350</option>
+                    <option value="Japón" data-precio="500">Japón - $500</option>
+                    <option value="Australia" data-precio="450">Australia - $450</option>
+                    <option value="Brasil" data-precio="400">Brasil - $400</option>
+                </select><br><br>
+
+                <!-- Mostrar precio del destino -->
+                <div id="precio-destino" style="display: none;">
+                    Precio del Vuelo: $<span id="precio"></span>
+                </div>
+
+                <!-- Formulario de datos personales oculto inicialmente -->
+                <div id="datos-personales" style="display: none;">
+                    <label for="nombre">Nombre:</label><br>
+                    <input type="text" id="nombre" name="nombre" required><br><br>
+
+                    <label for="email">Correo Electrónico:</label><br>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <label for="fecha">Fecha de Vuelo:</label><br>
+                    <input type="date" id="fecha" name="fecha" required><br><br>
+
+                    <!-- Opciones de mascotas y maletas -->
+                    <label for="mascotas">¿Lleva mascotas?</label><br>
+                    <select id="mascotas" name="mascotas">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select><br><br>
+
+                    <label for="maletas">¿Lleva maletas?</label><br>
+                    <select id="maletas" name="maletas" onchange="mostrarPeso()">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select><br><br>
+
+                    <!-- Campo para ingresar el peso de la maleta -->
+                    <div id="peso-maleta-div" style="display: none;">
+                        <label for="peso-maleta">Peso de la Maleta (kg):</label><br>
+                        <input type="number" id="peso-maleta" name="peso-maleta"><br><br>
+                    </div>
+
+                    <!-- Botón con estilo minimalista -->
+                    <input type="submit" class="boton-minimalista" value="Confirmar Reserva">
+                </div>
+
+            </form>
+
+            <!-- Mensaje de confirmación -->
+            <div id="mensaje-confirmacion" style="display: none;">
+                <!-- Aquí se mostrará la factura -->
+                <div class='factura'>
+                    <h3>Factura de Reserva:</h3>
+                    <p id='detalles-reserva'></p> <!-- Aquí se mostrarán los detalles -->
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Aerolínea Kronos. Todos los derechos reservados.</p>
+        </footer>
+
+    </main>
+
+    <!-- Script para manejar la reserva -->
+    <script src="script.js"></script>
+
+    <!-- Función para manejar la selección del destino y mostrar el precio -->
+    <script>
+        function mostrarFormulario() {
+            const destinoSeleccionado = document.getElementById("destino");
+            const datosPersonalesDiv = document.getElementById("datos-personales");
+            const precioDiv = document.getElementById("precio-destino");
+            const precioSpan = document.getElementById("precio");
+
+            // Mostrar el formulario solo si se seleccionó un destino
+            if (destinoSeleccionado.value) {
+                datosPersonalesDiv.style.display = "block";
+                
+                // Obtener el precio del destino seleccionado
+                const precio = destinoSeleccionado.options[destinoSeleccionado.selectedIndex].getAttribute("data-precio");
+                precioSpan.textContent = precio;
+                precioDiv.style.display = "block"; // Mostrar el precio
+            } else {
+                datosPersonalesDiv.style.display = "none"; // Ocultar si no hay selección
+                precioDiv.style.display = "none"; // Ocultar el precio
+            }
+        }
+
+        function mostrarPeso() {
+            const maletas = document.getElementById("maletas").value;
+            const pesoMaletaDiv = document.getElementById("peso-maleta-div");
+            
+            // Mostrar el campo de peso solo si lleva maletas
+            if (maletas === "si") {
+                pesoMaletaDiv.style.display = "block";
+            } else {
+                pesoMaletaDiv.style.display = "none"; // Ocultar si no lleva maletas
+                document.getElementById("peso-maleta").value = ""; // Limpiar el campo
+            }
+        }
+
+        // Manejar el envío del formulario
+        document.getElementById("form-reserva").onsubmit = function(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+            // Obtener valores del formulario
+            const nombre = document.getElementById("nombre").value;
+            const email = document.getElementById("email").value;
+            const destino = document.getElementById("destino").value;
+            const fecha = document.getElementById("fecha").value;
+            const mascotas = document.getElementById("mascotas").value;
+            const maletas = document.getElementById("maletas").value;
+            const pesoMaleta = parseFloat(document.getElementById("peso-maleta").value) || 0;
+
+            // Obtener el precio del vuelo seleccionado
+            const precioVuelo = parseFloat(document.getElementById("precio").textContent);
+            
+            // Calcular costo adicional por peso extra
+            let costoExtra = 0;
+            if (maletas === "si" && pesoMaleta > 20) {
+                costoExtra = (pesoMaleta - 20) * 10; // $10 por kg extra
+            }
+
+            // Calcular costo total
+            const costoTotal = precioVuelo + costoExtra;
+
+            // Mostrar mensaje de confirmación y detalles en formato factura
+            const detallesReserva = `
+                Nombre: ${nombre}<br>
+                Correo Electrónico: ${email}<br>
+                Origen: Venezuela<br>
+                Destino: ${destino}<br>
+                Precio del Vuelo: $${precioVuelo}<br> 
+                Fecha de Vuelo: ${fecha}<br>
+                Lleva Mascotas: ${mascotas}<br>
+                Lleva Maletas: ${maletas}<br>${maletas === "si" ? `Peso de la Maleta: ${pesoMaleta} kg<br>Costo Extra: $${costoExtra}` : ''}
+                <strong>Costo Total a Pagar: $${costoTotal}</strong> <!-- Costo total -->
+            `;
+            
+            document.getElementById("detalles-reserva").innerHTML = detallesReserva;
+            document.getElementById("mensaje-confirmacion").style.display = "block";
+            
+            // Limpiar el formulario
+            document.getElementById("form-reserva").reset();
+            mostrarFormulario(); // Ocultar el formulario de datos personales
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+.destino {
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: transparent; /* Fondo transparente */
+    border: 2px solid #007bff; /* Borde azul */
+    color: #007bff; /* Texto azul */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+button:hover {
+    background-color: #007bff; /* Fondo azul al pasar el ratón */
+    color: white; /* Texto blanco al pasar el ratón */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #333;
+    color: white;
+}
+.destino {
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+h2 {
+    color: #333; /* Color más oscuro para los títulos */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #333;
+    color: white;
+}
